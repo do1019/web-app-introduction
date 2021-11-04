@@ -12,13 +12,13 @@ import (
 type ctxKey string
 
 const (
-	newKey ctxKey = "OS"
+	osKey ctxKey = "OS"
 )
 
 func SetDeviceOSInfoInContext(r *http.Request) *http.Request {
 	uaString := r.UserAgent()
 	uaStruct := ua.Parse(uaString)
-	ctx := context.WithValue(r.Context(), newKey, uaStruct.OS)
+	ctx := context.WithValue(r.Context(), osKey, uaStruct.OS)
 	// 受け取り側で値が見つからない。string同士だと見つかるので型の問題。ただstringは推奨されていない。
 	// ここで受け取り関数も定義してみる。
 	return r.Clone(ctx)
@@ -26,7 +26,7 @@ func SetDeviceOSInfoInContext(r *http.Request) *http.Request {
 
 func GetDeviceOSInfoInContext(r *http.Request) (string, error) {
 	ctx := r.Context()
-	v := ctx.Value(newKey)
+	v := ctx.Value(osKey)
 	if v == nil {
 		return "", &model.ErrNotFound{}
 	}
