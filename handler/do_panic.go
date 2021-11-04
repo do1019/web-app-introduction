@@ -2,8 +2,8 @@ package handler
 
 import (
 	"net/http"
-	"fmt"
-	"github.com/do1019/web-app-introduction/handler/middleware"
+	//"fmt"
+	//"github.com/do1019/web-app-introduction/handler/middleware"
 )
 
 type DoPanicHandler struct{}
