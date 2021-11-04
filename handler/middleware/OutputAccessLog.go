@@ -12,11 +12,13 @@ import (
 
 func OutputAccessLog(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
-		ap := &model.Access{}
+		ap := &model.AccessInfo{}
 		start := time.Now()
 		nr := SetDeviceOSInfoInContext(r)
+		// SetDeviceOsInfoInContext関数を直接ServeHTTPの引数に入れたらエラーになる
 		next.ServeHTTP(w, nr)
 		end := time.Now()
+		
 		ap.Timestamp = start
 		ap.Latency = int64(end.Sub(start))
 		ap.Path = r.URL.Path
