@@ -2,8 +2,8 @@ package handler
 
 import (
 	"net/http"
-	//"fmt"
-	//"github.com/do1019/web-app-introduction/handler/middleware"
+	"fmt"
+	"github.com/do1019/web-app-introduction/handler/middleware"
 )
 
 type DoPanicHandler struct{}
@@ -18,15 +18,12 @@ func (d *DoPanicHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// 	fmt.Println("found value:", v)
 	// }
 	// fmt.Println("key not found:", "OS")
-
-	// nr := middleware.Device_os_analysis(r)
-	// nctx := nr.Context()
-
-	// if v := nctx.Value("OS"); v != nil {
-	// 	fmt.Println("found value:", v)
+	// nr := middleware.SetDeviceOSInfoInContext(r)
+	// v, err := middleware.GetDeviceOSInfoInContext(nr)
+	// if err != nil {
+	// 	fmt.Println("key not found:", "OS", err)
 	// }
-	// fmt.Println("key not found:", "OS")
-
-	//fmt.Println("loop")
+	// fmt.Println("found value:", v)
+	
 	panic("do-panic!")
 }
