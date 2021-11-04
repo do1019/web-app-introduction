@@ -28,7 +28,7 @@ func GetDeviceOSInfoInContext(r *http.Request) (string, error) {
 	ctx := r.Context()
 	v := ctx.Value(new_key)
 	if v == nil {
-		return "", 
+		return "", &model.Error{}
 	}
 	ret, ok := v.(string)
 	if ok != true {

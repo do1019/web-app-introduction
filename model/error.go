@@ -1,6 +1,8 @@
 package model
 
-type Error struct {}
+type Error struct {
+	errmsg string
+}
 
 func (e *Error) ErrNotFound() string {
 	return "Error: NotFound"
