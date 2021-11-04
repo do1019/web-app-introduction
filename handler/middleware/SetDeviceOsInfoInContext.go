@@ -14,7 +14,7 @@ const (
 	new_key ctx_key = "OS"
 )
 
-func SetOsInfoOfAccessSourceDeviceInContext(r *http.Request) *http.Request{
+func SetDeviceOsInfoInContext(r *http.Request) *http.Request{
 	uastring := r.UserAgent()
 	uastruct := ua.Parse(uastring)
 	ctx := context.WithValue(r.Context(), new_key, uastruct.OS)
