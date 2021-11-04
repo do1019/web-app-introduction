@@ -30,9 +30,6 @@ func GetDeviceOSInfoInContext(r *http.Request) (string, error) {
 	if v == nil {
 		return "", &model.ErrNotFound{}
 	}
-	ret, ok := v.(string)
-	if ok != true {
-		return "", &model.ErrCannotConvType{}
-	}
+	ret, _ := v.(string)
 	return ret, nil
 }
