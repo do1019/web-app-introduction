@@ -6,7 +6,7 @@ import (
 	//"fmt"
 )
 
-func Recovery(h http.Handler) http.Handler {
+func Recovery(next http.Handler) http.Handler {
 	//fmt.Println(1)
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		// TODO: ここに実装をする
@@ -17,7 +17,7 @@ func Recovery(h http.Handler) http.Handler {
 				log.Println(err);
 			}
 		} ()
-		h.ServeHTTP(w, r)
+		next.ServeHTTP(w, r)
 		//fmt.Println(ここまで来ない)
 	}
 	//fmt.Println(2)

@@ -10,5 +10,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.Handle("/do-panic", middleware.Recovery(handler.NewDoPanicHandler()))
+	//STEP3
+	//mux.Handle("/do-panic", middleware.OutputAccessLog(middleware.Recovery(handler.NewDoPanicHandler())))
 	http.ListenAndServe(":8080", mux)
 }
