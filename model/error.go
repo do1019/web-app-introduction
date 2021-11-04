@@ -1,7 +1,11 @@
 package model
 
-type ErrNotFound struct {}
+type Error struct {}
 
-func (e *ErrNotFound) Error() string {
+func (e *Error) ErrNotFound() string {
 	return "Error: NotFound"
+}
+
+func (e *Error) ErrCannotConvType() string {
+	return "Error: CannotConvType"
 }

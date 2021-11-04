@@ -5,6 +5,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/do1019/web-app-introduction/model"
 	"github.com/mileusna/useragent"
 )
 
@@ -25,7 +26,13 @@ func SetDeviceOSInfoInContext(r *http.Request) *http.Request {
 
 func GetDeviceOSInfoInContext(r *http.Request) (string, error) {
 	ctx := r.Context()
-	if v := ctx.Value(new_key); v == nil {
-		return "", "NotFound"
+	v := ctx.Value(new_key)
+	if v == nil {
+		return "", 
 	}
+	ret, ok := v.(string)
+	if ok != true {
+
+	}
+	return ret, nil
 }
