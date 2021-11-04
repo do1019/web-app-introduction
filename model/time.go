@@ -11,22 +11,22 @@ type AccessInfo struct {
 	OS			string		`json:"os"`
 }
 
-func (ap *AccessInfo) withTimestamp(timestamp time.Time) *AccessInfo {
+func (ap *AccessInfo) StoreTimestamp(timestamp time.Time) *AccessInfo {
 	ap.Timestamp = timestamp
 	return ap
 }
 
-func (ap *AccessInfo) withLatency(latency int64) *AccessInfo {
+func (ap *AccessInfo) StoreLatency(latency int64) *AccessInfo {
 	ap.Latency = latency
 	return ap
 }
 
-func (ap *AccessInfo) withPath(path string) *AccessInfo {
+func (ap *AccessInfo) StorePath(path string) *AccessInfo {
 	ap.Path = path
 	return ap
 }
 
-func (ap *AccessInfo) withOS(os string) *AccessInfo {
+func (ap *AccessInfo) StoreOS(os string) *AccessInfo {
 	ap.OS = os
 	return ap
 }

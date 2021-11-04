@@ -18,22 +18,21 @@ func OutputAccessLog(next http.Handler) http.Handler {
 		// SetDeviceOsInfoInContext関数を直接ServeHTTPの引数に入れたらエラーになる
 		next.ServeHTTP(w, nr)
 		end := time.Now()
-		
-		ap.Timestamp = start
-		ap.Latency = int64(end.Sub(start))
-		ap.Path = r.URL.Path
+		ap = ap.StoreTimestamp(start)
+		ap = ap.StoreLatency(int64(end.Sub(start)))
+		ap = ap.StorePath(r.URL.Path)
 		osInfo, err := GetDeviceOSInfoInContext(nr)
 		if err != nil {
 			log.Println(err)
 			return
 		}
-		ap.OS = osInfo
+		ap = ap.StoreOS(osInfo)
 		convap, err := json.Marshal(ap)
     	if err != nil {
         	log.Println(err)
 			return
     	}
-    fmt.Println(string(convap))
+		fmt.Println(string(convap))
 	}
 	return http.HandlerFunc(fn)
 }
