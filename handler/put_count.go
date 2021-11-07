@@ -8,11 +8,11 @@ import (
 
 type PutCountHandler struct{}
 
-func (p *PutCountHandler)NewPutCountHandler() *PutCountHandler {
+func NewPutCountHandler() *PutCountHandler {
 	return &PutCountHandler{}
 }
 
-func (d *PutCountHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (p *PutCountHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	go func() {
 		for i := 10; i > 0; i--{
 			fmt.Println("Until server shutdown: " + i)

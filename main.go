@@ -33,7 +33,7 @@ func mainReturnWithError() error {
 	//STEP4
 	//mux.Handle("/do-panic", middleware.OutputAccessLog(middleware.Recovery(middleware.ObtainIdAndPassFromEnviron().AccessRestriction(handler.NewDoPanicHandler()))))
 
-	mux.Handle("/put-count", middleware.OutputAccessLog(middleware.Recovery(middleware.ObtainIdAndPassFromEnviron().AccessRestriction(handler.PutCountHandler()))))
+	mux.Handle("/put-count", middleware.OutputAccessLog(middleware.Recovery(middleware.ObtainIdAndPassFromEnviron().AccessRestriction(handler.NewPutCountHandler()))))
 	go func() {
 		<-ctx.Done()
 		ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
