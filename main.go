@@ -1,13 +1,14 @@
 package main
 
 import (
-	"context"
+	//"fmt"
 	"log"
 	"net/http"
+	"context"
 	"os"
 	"os/signal"
 	"time"
-	"server"
+	"syscall"
 	"github.com/do1019/web-app-introduction/handler"
 	"github.com/do1019/web-app-introduction/handler/middleware"
 )
@@ -19,12 +20,9 @@ func main() {
 }
 
 func mainReturnWithError() error {
-	//STEP6
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
-	defer stop()
-
 	mux := http.NewServeMux()
 
+	//STEP1
 	//mux.Handle("/do-panic", middleware.Recovery(handler.NewDoPanicHandler()))
 
 	//STEP3
@@ -33,12 +31,33 @@ func mainReturnWithError() error {
 	//STEP4
 	//mux.Handle("/do-panic", middleware.OutputAccessLog(middleware.Recovery(middleware.ObtainIdAndPassFromEnviron().AccessRestriction(handler.NewDoPanicHandler()))))
 
+	//STEP6
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill, syscall.SIGTERM, syscall.SIGQUIT)
+	defer stop()
+
 	mux.Handle("/put-count", middleware.OutputAccessLog(middleware.Recovery(middleware.ObtainIdAndPassFromEnviron().AccessRestriction(handler.NewPutCountHandler()))))
+
+	server := &http.Server{
+		Addr:    ":8080",
+		Handler: mux,
+	}
+
+	errC := make(chan error, 1)
+
 	go func() {
 		<-ctx.Done()
-		ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
+		stop()
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
-		server.Shutdown(ctx)
+		if err := server.Shutdown(ctx); err != nil {
+			log.Println("Failed to gracefully shutdown:", err)
+		}
+		close(errC)
 	}()
-	return http.ListenAndServe(":8080", mux)
+	if err := server.ListenAndServe(); err != http.ErrServerClosed {
+		log.Println("unexpected server error", err)
+		return err
+	}
+	<-errC
+	return nil
 }

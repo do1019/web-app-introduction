@@ -33,7 +33,7 @@ func (a *AuthInfo)AccessRestriction(next http.Handler) http.Handler {
 			// 	pair := strings.Split(e, "=")
 			// 	fmt.Println(pair[0] + "=" + pair[1])
 			// }
-			//w.Header().Add("WWW-Authenticate", `Basic realm="my private area"`)
+			w.Header().Add("WWW-Authenticate", `Basic realm="my private area"`)
 			//w.Write([]byte("401 認証失敗\n"))
 			//
 			w.WriteHeader(http.StatusUnauthorized)
