@@ -6,13 +6,13 @@ import (
 	"log"
 	"net/http"
 	"time"
-
+	"github.com/do1019/web-app-introduction/model"
 	"github.com/do1019/web-app-introduction/handler/middleware"
 )
 
 func OutputAccessLog(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
-		accessInfo := &middleware.AccessInfo{}
+		accessInfo := &model.AccessInfo{}
 		//Nowでtimeを取るとテストの度に結果が変わるのでやりにくい。外から入れるのが良く、ライブラリもたくさんある
 		start := time.Now()
 		nextRequest := SetDeviceOSInfoInContext(r)
