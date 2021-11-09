@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 	"github.com/do1019/web-app-introduction/model"
-	"github.com/do1019/web-app-introduction/handler/middleware"
+	//"github.com/do1019/web-app-introduction/handler/middleware"
 )
 
 func OutputAccessLog(next http.Handler) http.Handler {

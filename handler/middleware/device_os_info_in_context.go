@@ -5,7 +5,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/do1019/web-app-introduction/model"
+	"github.com/do1019/web-app-introduction/model/middleware"
 	"github.com/mileusna/useragent"
 )
 
