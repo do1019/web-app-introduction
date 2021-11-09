@@ -5,7 +5,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/do1019/web-app-introduction/model/middleware"
+	"github.com/do1019/web-app-introduction/handler/middleware"
 	"github.com/mileusna/useragent"
 )
 
@@ -28,11 +28,11 @@ func GetDeviceOSInfoInContext(r *http.Request) (string, error) {
 	v := ctx.Value(osKey)
 	if v == nil {
 		//error構造体とメソッドをmiddlewareで定義
-		return "", &middleware.ErrNotFound{}
+		return "", &middleware_error.ErrNotFound{}
 	}
 	osInfo, ok := v.(string)
 	if !ok {
-		return "", &middleware.ErrCannotConvType{}
+		return "", &middleware_error.ErrCannotConvType{}
 	}
 	return osInfo, nil
 }
