@@ -7,7 +7,7 @@ import (
 	"time"
 	"encoding/json"
 
-	"github.com/do1019/web-accessInfop-introduction/model"
+	//"github.com/do1019/web-accessInfop-introduction/model"
 )
 
 func OutputAccessLog(next http.Handler) http.Handler {
