@@ -1,18 +1,18 @@
 package middleware
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
-	"encoding/json"
 
-	//"github.com/do1019/web-accessInfop-introduction/model"
+	"github.com/do1019/web-app-introduction/handler/middleware"
 )
 
 func OutputAccessLog(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
-		accessInfo := &model.AccessInfo{}
+		accessInfo := &middleware.AccessInfo{}
 		//Nowでtimeを取るとテストの度に結果が変わるのでやりにくい。外から入れるのが良く、ライブラリもたくさんある
 		start := time.Now()
 		nextRequest := SetDeviceOSInfoInContext(r)
