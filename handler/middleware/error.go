@@ -1,4 +1,4 @@
-package model
+package middleware
 
 type ErrNotFound struct {}
 type ErrCannotConvType struct {}

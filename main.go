@@ -23,41 +23,46 @@ func mainReturnWithError() error {
 	mux := http.NewServeMux()
 
 	//STEP1
-	//mux.Handle("/do-panic", middleware.Recovery(handler.NewDoPanicHandler()))
+	// まとめてrecoveryする muxを包む
+	// mux.Handle("/do-panic", handler.NewDoPanicHandler())
+	// mux.Handle("/do-accesslog", handler.NewDoPanicHandler())
 
 	//STEP3
-	//mux.Handle("/do-panic", middleware.OutputAccessLog(middleware.Recovery(handler.NewDoPanicHandler())))
+	//mux.Handle("/do-panic", handler.NewDoPanicHandler())
+	//http.ListenAndServe(":8080", middleware.OutputAccessLog(middleware.Recovery(mux)))
 
 	//STEP4
 	//mux.Handle("/do-panic", middleware.OutputAccessLog(middleware.Recovery(middleware.ObtainIdAndPassFromEnviron().AccessRestriction(handler.NewDoPanicHandler()))))
+	http.ListenAndServe(":8080", middleware.OutputAccessLog(middleware.Recovery(middleware.ObtainIdAndPassFromEnviron().AccessRestriction(mux))))
 
 	//STEP6
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill, syscall.SIGTERM, syscall.SIGQUIT)
-	defer stop()
+	// ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill, syscall.SIGTERM, syscall.SIGQUIT)
 
-	mux.Handle("/put-count", middleware.OutputAccessLog(middleware.Recovery(middleware.ObtainIdAndPassFromEnviron().AccessRestriction(handler.NewPutCountHandler()))))
+	// defer stop()
 
-	server := &http.Server{
-		Addr:    ":8080",
-		Handler: mux,
-	}
+	// mux.Handle("/put-count", middleware.OutputAccessLog(middleware.Recovery(middleware.ObtainIdAndPassFromEnviron().AccessRestriction(handler.NewPutCountHandler()))))
 
-	errC := make(chan error, 1)
+	// server := &http.Server{
+	// 	Addr:    ":8080",
+	// 	Handler: mux,　//middleware.recovery(mux)
+	// }
 
-	go func() {
-		<-ctx.Done()
-		stop()
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-		defer cancel()
-		if err := server.Shutdown(ctx); err != nil {
-			log.Println("Failed to gracefully shutdown:", err)
-		}
-		close(errC)
-	}()
-	if err := server.ListenAndServe(); err != http.ErrServerClosed {
-		log.Println("unexpected server error", err)
-		return err
-	}
-	<-errC
+	// errC := make(chan error, 1)
+
+	// go func() {
+	// 	<-ctx.Done()
+	// 	stop()
+	// 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	// 	defer cancel()
+	// 	if err := server.Shutdown(ctx); err != nil {
+	// 		log.Println("Failed to gracefully shutdown:", err)
+	// 	}
+	// 	close(errC)
+	// }()
+	// if err := server.ListenAndServe(); err != http.ErrServerClosed {
+	// 	log.Println("unexpected server error", err)
+	// 	return err
+	// }
+	// <-errC
 	return nil
 }
