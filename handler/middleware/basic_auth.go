@@ -26,6 +26,8 @@ func ObtainIdAndPassFromEnviron() *AuthInfo {
 func (a *AuthInfo)AccessRestriction(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		if userID, pass, ok := r.BasicAuth(); !ok || subtle.ConstantTimeCompare([]byte(userID), []byte(a.UserID)) != 1 || subtle.ConstantTimeCompare([]byte(pass) , []byte(a.Password)) != 1 {
+			//28行目は分けたほうが良い。可読性。
+
 			//test
 			//fmt.Println(ok)
 			//fmt.Printf("userID=[%s], pass=[%s]\n", userID, pass)
@@ -55,5 +57,5 @@ func (a *AuthInfo)AccessRestriction(next http.Handler) http.Handler {
 	// 	`)
 		next.ServeHTTP(w, r)
 	}
-	return http.HandlerFunc(fn)
+	return http.HandlerFunc(fn) //無名関数を入れる。
 }
