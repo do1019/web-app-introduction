@@ -10,9 +10,9 @@ import (
 
 //type ctxKey string
 
-const (
-	osKey ctxKey = "OS"
-)
+// const (
+// 	osKey ctxKey = "OS"
+// )
 
 // func SetDeviceOSInfoInContext(r *http.Request) *http.Request {
 // 	uaString := r.UserAgent()
@@ -23,7 +23,7 @@ const (
 
 func GetDeviceOSInfoInContext(r *http.Request) (string, error) {
 	ctx := r.Context()
-	v := ctx.Value(osKey)
+	v := ctx.Value(OsKey)
 	if v == nil {
 		return "", &middleware_error.ErrNotFound{}
 	}
