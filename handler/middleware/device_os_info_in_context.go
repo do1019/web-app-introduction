@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	//"fmt"
 	"context"
 	"net/http"
 
@@ -12,7 +11,6 @@ import (
 type ctxKey string
 
 const (
-	// 先頭が小文字だと他からアクセスできない
 	osKey ctxKey = "OS"
 )
 
@@ -27,7 +25,6 @@ func GetDeviceOSInfoInContext(r *http.Request) (string, error) {
 	ctx := r.Context()
 	v := ctx.Value(osKey)
 	if v == nil {
-		//error構造体とメソッドをmiddlewareで定義
 		return "", &middleware_error.ErrNotFound{}
 	}
 	osInfo, ok := v.(string)
