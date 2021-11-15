@@ -15,6 +15,6 @@ func main() {
 
 func mainReturnWithError() error {
 	mux := http.NewServeMux()
-	mux.Handle("/do-panic", middleware.Recovery(&handler.DoPanicHandler{}))
-	return http.ListenAndServe(":8080",mux)
+	mux.Handle("/do-panic", &handler.DoPanicHandler{})
+	return http.ListenAndServe(":8080", middleware.Recovery(mux))
 }
