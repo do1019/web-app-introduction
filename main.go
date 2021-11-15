@@ -31,6 +31,9 @@ func mainReturnWithError() error {
 	//http.ListenAndServe(":8080", middleware.OutputAccessLog(middleware.Recovery(middleware.ObtainIdAndPassFromEnviron().AccessRestriction(mux))))
 
 	//STEP6
+	//切り出したほうが良い　sync.WaitGroupの正しい使い方　止まらないのが正しい、リポジトリを見る。
+	//リポジトリを切り出してブランチを切って保存する。
+
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill, syscall.SIGTERM, syscall.SIGQUIT)
 
 	defer stop()
