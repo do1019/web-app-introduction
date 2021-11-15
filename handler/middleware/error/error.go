@@ -1,8 +1,7 @@
 package middleware_error
 
-type ErrNotFound struct {}
-type ErrCannotConvType struct {}
-
+type ErrNotFound struct{}
+type ErrCannotConvType struct{}
 
 func (e *ErrNotFound) Error() string {
 	return "Error: NotFound"

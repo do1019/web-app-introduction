@@ -1,10 +1,10 @@
 package main
 
 import (
-	"log"
-	"net/http"
 	"github.com/do1019/web-app-introduction/handler"
 	"github.com/do1019/web-app-introduction/handler/middleware"
+	"log"
+	"net/http"
 )
 
 func main() {
@@ -18,5 +18,5 @@ func mainReturnWithError() error {
 	mux.Handle("/do-panic", handler.NewDoPanicHandler())
 	return http.ListenAndServe(":8080",
 		middleware.SetDeviceOSInfoInContext(
-		middleware.Recovery(mux)))
+			middleware.Recovery(mux)))
 }

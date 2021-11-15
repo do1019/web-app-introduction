@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"context"
-	"net/http"
-	"github.com/mileusna/useragent"
 	"github.com/do1019/web-app-introduction/handler/middleware/error"
+	"github.com/mileusna/useragent"
+	"net/http"
 )
 
 type ctxKey string
