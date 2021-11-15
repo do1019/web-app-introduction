@@ -1,3 +1,3 @@
 # step3
 
-Implementation of Middleware to output Access log.
+Implement a middleware to output Access log.
