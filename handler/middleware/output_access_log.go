@@ -22,7 +22,8 @@ func OutputAccessLog(next http.Handler) http.Handler {
 		accessInfo = accessInfo.StoreTimestamp(start)
 		accessInfo = accessInfo.StoreLatency(int64(end.Sub(start)))
 		accessInfo = accessInfo.StorePath(r.URL.Path)
-		//　storeする必要ない, os情報書き込むmiddlewareをつくる contextの意味が出てくる。
+		// storeする必要ない, os情報書き込むmiddlewareをつくる contextの意味が出てくる。
+		// 作ろうとしてみたが上手な分け方がいまいちわからなかった
 		osInfo, err := GetDeviceOSInfoInContext(nextRequest)
 		// OS情報がなくてもログは出したいのでreturnしない
 		if err != nil {
