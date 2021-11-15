@@ -1,29 +1,31 @@
 package middleware
 
 import (
-	//"context"
+	"context"
 	"net/http"
-
+	"github.com/mileusna/useragent"
 	"github.com/do1019/web-app-introduction/handler/middleware/error"
-	//"github.com/mileusna/useragent"
 )
 
-//type ctxKey string
+type ctxKey string
 
-// const (
-// 	osKey ctxKey = "OS"
-// )
+const (
+	osKey ctxKey = "OS"
+)
 
-// func SetDeviceOSInfoInContext(r *http.Request) *http.Request {
-// 	uaString := r.UserAgent()
-// 	uaStruct := ua.Parse(uaString)
-// 	ctx := context.WithValue(r.Context(), osKey, uaStruct.OS)
-// 	return r.Clone(ctx)
-// }
+func SetDeviceOSInfoInContext(next http.Handler) http.Handler {
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		uaString := r.UserAgent()
+		uaStruct := ua.Parse(uaString)
+		ctx := context.WithValue(r.Context(), osKey, uaStruct.OS)
+		next.ServeHTTP(w, r.Clone(ctx))
+	}
+	return http.HandlerFunc(fn)
+}
 
 func GetDeviceOSInfoInContext(r *http.Request) (string, error) {
 	ctx := r.Context()
-	v := ctx.Value(OsKey)
+	v := ctx.Value(osKey)
 	if v == nil {
 		return "", &middleware_error.ErrNotFound{}
 	}
