@@ -1,10 +1,10 @@
 package main
 
 import (
-	"log"
-	"net/http"
 	"github.com/do1019/web-app-introduction/handler"
 	"github.com/do1019/web-app-introduction/handler/middleware"
+	"log"
+	"net/http"
 )
 
 func main() {
