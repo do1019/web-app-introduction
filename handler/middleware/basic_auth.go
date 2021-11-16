@@ -25,7 +25,7 @@ func (a *AuthInfo) AccessRestriction(next http.Handler) http.Handler {
 			subtle.ConstantTimeCompare([]byte(userID), []byte(a.UserID)) != 1 ||
 			subtle.ConstantTimeCompare([]byte(pass), []byte(a.Password)) != 1 {
 			// Code for testing login in a browser.
-			// w.Header().Add("WWW-Authenticate", `Basic realm="my private area"`)
+			w.Header().Add("WWW-Authenticate", `Basic realm="my private area"`)
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
