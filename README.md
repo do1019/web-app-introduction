@@ -8,6 +8,6 @@
 
 * Output Access log.
 
-* For Basic Authentication.
+* Basic Authentication.
 
 * A graceful shutdown mechanism to safely terminate the HTTP server.
