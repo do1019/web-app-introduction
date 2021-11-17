@@ -12,14 +12,10 @@ type AuthInfo struct {
 }
 
 func ObtainIdAndPassFromEnviron() *AuthInfo {
-	ai := &AuthInfo{}
-	ai.UserID = os.Getenv("BASIC_AUTH_USER_ID")
-	ai.Password = os.Getenv("BASIC_AUTH_PASSWORD")
-	return ai
-	// return &AuthInfo{
-	// 	os.Getenv("BASIC_AUTH_USER_ID"),
-	// 	os.Getenv("BASIC_AUTH_PASSWORD"),
-	// }
+	return &AuthInfo{
+		os.Getenv("BASIC_AUTH_USER_ID"),
+		os.Getenv("BASIC_AUTH_PASSWORD"),
+	}
 }
 
 func (a *AuthInfo) AccessRestriction(next http.Handler) http.Handler {
