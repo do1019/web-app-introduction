@@ -38,6 +38,7 @@ func mainReturnWithError() error {
 
 func GracefulShutdown(server *http.Server) error {
 	wg := sync.WaitGroup{}
+
 	ctx, _ := signal.NotifyContext(context.Background(),
 		os.Interrupt, os.Kill, syscall.SIGTERM, syscall.SIGQUIT)
 
@@ -52,11 +53,13 @@ func GracefulShutdown(server *http.Server) error {
 		}
 		wg.Done()
 	}()
+
 	err := server.ListenAndServe()
 	if err != http.ErrServerClosed {
 		log.Println("unexpected server error", err)
 		return err
 	}
+
 	wg.Wait()
 	log.Println("Server shutdown")
 	return nil
