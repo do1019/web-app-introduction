@@ -20,11 +20,7 @@ func main() {
 }
 
 func mainReturnWithError() error {
-	wg := sync.WaitGroup{}
 	mux := http.NewServeMux()
-
-	ctx, _ := signal.NotifyContext(context.Background(),
-		os.Interrupt, os.Kill, syscall.SIGTERM, syscall.SIGQUIT)
 
 	mux.Handle("/do-panic", handler.NewDoPanicHandler())
 	mux.Handle("/put-count", handler.NewPutCountHandler())
@@ -37,6 +33,14 @@ func mainReturnWithError() error {
 					middleware.Recovery(mux)))),
 	}
 
+	return GracefulShutdown(server)
+}
+
+func GracefulShutdown(server *http.Server) error {
+	wg := sync.WaitGroup{}
+	ctx, _ := signal.NotifyContext(context.Background(),
+		os.Interrupt, os.Kill, syscall.SIGTERM, syscall.SIGQUIT)
+
 	go func() {
 		<-ctx.Done()
 		wg.Add(1)
@@ -48,13 +52,11 @@ func mainReturnWithError() error {
 		}
 		wg.Done()
 	}()
-
 	err := server.ListenAndServe()
 	if err != http.ErrServerClosed {
 		log.Println("unexpected server error", err)
 		return err
 	}
-
 	wg.Wait()
 	log.Println("Server shutdown")
 	return nil
